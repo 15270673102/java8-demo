@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Test2 {
 
@@ -23,7 +26,45 @@ public class Test2 {
                 new Dish("salmon", false, 450, Dish.Type.FISH));
 
 
+        System.err.println("---------------");
 
+        System.err.println(menu.stream().map(Dish::getCalories).reduce(0, Integer::sum));
+        System.err.println(menu.stream().mapToInt(Dish::getCalories).sum());
+        System.err.println("---------------");
+
+        menu.stream().findAny().ifPresent(System.err::println);
+        menu.stream().findFirst().ifPresent(System.err::println);
+
+        System.err.println("---------------");
+
+        System.err.println(menu.stream().anyMatch(Dish::isVegetarian));
+        System.err.println(menu.stream().anyMatch(dish -> dish.getName().equals("pork")));
+        System.err.println(menu.stream().anyMatch(dish -> dish.getName().equals("pork1")));
+
+        System.err.println("---------------");
+        System.err.println(menu.stream().count());
+        menu.stream().map(Dish::getCalories).reduce(Integer::max).ifPresent(System.err::println);
+        menu.stream().map(Dish::getCalories).reduce(Integer::min).ifPresent(System.err::println);
+        System.err.println(menu.stream().min(Comparator.comparing(Dish::getCalories)));
+        System.err.println(menu.stream().max(Comparator.comparing(Dish::getCalories)));
+        System.err.println("---------------");
+
+        menu.stream().filter(dish -> dish.getCalories() > 400).collect(Collectors.toList()).forEach(System.err::println);
+        System.err.println("---------------");
+
+        menu.forEach(dish -> {
+            dish.setName("xxxxxxxxxxxx");
+        });
+        menu.forEach(System.err::println);
+
+        System.err.println("----");
+        menu.stream().filter(dish -> dish.getCalories() > 400).limit(2).collect(Collectors.toList()).forEach(System.err::println);
+
+
+        System.err.println("----");
+        menu.stream().map(Dish::getName).collect(Collectors.toList()).forEach(System.err::println);
+        System.err.println("----");
+        menu.stream().map(Dish::getName).map(String::length).collect(Collectors.toList()).forEach(System.err::println);
     }
 
 

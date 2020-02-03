@@ -36,10 +36,12 @@ public class Stream示例 {
 
         memberNames.stream().filter(s -> s.startsWith("A")).forEach(System.err::println);
         System.err.println("------------");
+
         memberNames.stream().sorted().map(String::toUpperCase).forEach(System.err::println);
         System.err.println("------------");
+
         memberNames.stream().reduce(String::concat).ifPresent(System.err::println);
-        memberNames.stream().reduce(((s1, s2) -> s1 + "#" + s2)).ifPresent(System.err::println);
+        memberNames.stream().reduce((s1, s2) -> s1 + "#" + s2).ifPresent(System.err::println);
 
     }
 
